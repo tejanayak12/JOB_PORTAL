@@ -213,6 +213,6 @@ const JobListing = () => {
       </div>
     </div> // 2:10:40 
   );
-};s
+};
 
 export default JobListing;
