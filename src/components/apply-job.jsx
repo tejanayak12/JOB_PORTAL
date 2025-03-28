@@ -67,7 +67,7 @@ const ApplyJobDrawer = ({ user, job, applied = false, fetchJob }) => {
         fnApply({
             ...data,
             job_id: job.id,
-            candidate_id: user?.id || user?.user_id, // Ensure this line is correct
+            candidate_id: user?.id || user?.user_id,
             name: user?.fullName || user?.username || user?.email,
             status: 'applied',
             resume: data.resume[0]
