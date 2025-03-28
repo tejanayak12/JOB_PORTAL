@@ -98,3 +98,24 @@ export async function updateHiringStatus(token, { job_id }, isOpen) {
 
     return data
 }
+
+export async function addNewJob(token, _, jobData) {
+    if (!jobData) {
+        console.log("Job data is missing:", jobData);
+        return null;
+    }
+
+    const supabase = await SupabaseClient(token);
+
+    const { data, error } = await supabase
+        .from('jobs')
+        .insert([jobData])
+        .select();
+
+    if (error) {
+        console.log("Error Creating Job", error);
+        return null;
+    }
+
+    return data;
+}

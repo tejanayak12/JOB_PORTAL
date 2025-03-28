@@ -39,7 +39,7 @@ const Header = () => {
                         <Button variant="outline" onClick={() => setShowSignIn(true)} className='cursor-pointer'>Login</Button>
                     </SignedOut>
                     <SignedIn>
-                        {user?.unsafeMetadata?.role === 'recruiter' && (
+                        {user.isLoaded && user.user?.unsafeMetadata?.role === 'recruiter' && (
                             <Link to='/post-job'>
                                 <Button variant='destructive' className='rounded-full'>
                                     <PenBox size={20} />
@@ -59,16 +59,15 @@ const Header = () => {
                                     labelIcon={<BriefcaseBusiness size={15} />}
                                     href='my-jobs'
                                 />
-
                                 <UserButton.Link
                                     label='Saved Jobs'
                                     labelIcon={<Heart size={15} />}
                                     href='saved-jobs'
                                 />
-
                             </UserButton.MenuItems>
                         </UserButton>
                     </SignedIn>
+
                 </div>
             </nav>
 
