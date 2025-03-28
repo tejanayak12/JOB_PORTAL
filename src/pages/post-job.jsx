@@ -15,6 +15,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { addNewJob } from "@/api/apiJobs";
+import AddCompanyDrawer from "@/components/add-company-drawer";
 
 const schema = z.object({
   title: z.string().min(1, { message: 'Title Is Required' }),
@@ -92,17 +93,14 @@ const PostJob = () => {
           <p className="text-red-500">{errors.description.message}</p>
         )}
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center w-full gap-4">
           <Controller
             name="location"
             control={control}
             render={({ field }) => (
-              <Select
-                value={field.value}
-                onValueChange={field.onChange}
-              >
+              <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger className="w-full border-gray-500 rounded-lg shadow-sm sm:w-52">
-                  <SelectValue placeholder="Filter By Location" />
+                  <SelectValue placeholder="Add Location" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -111,20 +109,17 @@ const PostJob = () => {
                     ))}
                   </SelectGroup>
                 </SelectContent>
-              </Select>)}
+              </Select>
+            )}
           />
-
 
           <Controller
             name="company_id"
             control={control}
             render={({ field }) => (
-              < Select
-                value={field.value}
-                onValueChange={field.onChange}
-              >
+              <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger className="w-full border-gray-500 rounded-lg shadow-sm sm:w-52">
-                  <SelectValue placeholder="Filter By Companies">
+                  <SelectValue placeholder="Add  Company">
                     {field.value ? companies?.find((com) => com.id === Number(field.value))?.name : 'Company'}
                   </SelectValue>
                 </SelectTrigger>
@@ -138,8 +133,10 @@ const PostJob = () => {
               </Select>
             )}
           />
-          {/* {Add Company drawer} */}
+
+          <AddCompanyDrawer fetchCompanies={fnCompanies} />
         </div>
+
         {errors.location && (
           <p className="text-red-500">{errors.location.message}</p>
         )}
