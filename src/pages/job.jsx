@@ -127,7 +127,7 @@ const JobPage = () => {
             <h2 className="text-2xl font-bold sm:text-3xl">
               Applications
             </h2>
-            {job?.applications.map(() => {
+            {job?.applications.map((application) => {
               return (<ApplicationCard key={application.id} application={application} />)
             })}
           </div>
