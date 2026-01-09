@@ -22,6 +22,7 @@ const JobCard = ({
         loading: loadingSavedJob,
     } = useFetch(SaveJob, {
         alreadySaved: saved,
+        manual: true,
     })
 
     const { user } = useUser();

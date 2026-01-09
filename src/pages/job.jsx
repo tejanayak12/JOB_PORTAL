@@ -34,7 +34,8 @@ const JobPage = () => {
     loading: loadingHiringStatus,
     fn: fnHiringStatus
   } = useFetch(updateHiringStatus, {
-    job_id: id
+    job_id: id,
+    manual: true
   });
 
   const handleStatusChanage = (value) => {

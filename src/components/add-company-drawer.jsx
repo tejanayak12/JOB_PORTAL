@@ -42,7 +42,7 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
     error: errorAddCompany,
     data: dataAddCompany,
     fn: fnAddCompany,
-  } = useFetch((token, _, companyData) => addNewCompany(token, _, companyData));
+  } = useFetch(addNewCompany, { manual: true });
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

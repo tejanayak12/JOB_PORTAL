@@ -61,7 +61,7 @@ const ApplyJobDrawer = ({ user, job, applied = false, fetchJob }) => {
         loading: loadingApply,
         error: errorApply,
         fn: fnApply,
-    } = useFetch(applyToJob);
+    } = useFetch(applyToJob, { manual: true });
 
     const onSubmit = (data) => {
         fnApply({

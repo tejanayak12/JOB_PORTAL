@@ -55,7 +55,7 @@ const PostJob = () => {
     error: errorCreateJob,
     data: dataCreateJob,
     fn: fnCreateJob,
-  } = useFetch(addNewJob);
+  } = useFetch(addNewJob, { manual: true });
 
   const onSubmit = (data) => {
     console.log("Form Data:", data); // Debugging

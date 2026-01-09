@@ -28,7 +28,9 @@ const useFetch = (cb, options = {}) => {
     };
 
     useEffect(() => {
-        if (session) fn();
+        if (!options?.manual && session) {
+            fn();
+        }
     }, [session]);
 
     return { fn, data, loading, error };
