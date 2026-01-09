@@ -24,7 +24,7 @@ const CreatedJobs = () => {
         console.log("Fetched Jobs:", createdJobs);
     }, [createdJobs]);
 
-    if (loadingCreatedJobs) {
+    if (loadingCreatedJobs && !createdJobs) {
         return <BarLoader className='mb-4' width={'100%'} color='white' />;
     }
 

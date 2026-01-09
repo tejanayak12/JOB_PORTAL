@@ -76,7 +76,7 @@ const ApplyJobDrawer = ({ user, job, applied = false, fetchJob }) => {
             reset();
         })
 
-        console.log("Job Data received in applyToJob:", data);
+
     };
 
 
@@ -87,10 +87,10 @@ const ApplyJobDrawer = ({ user, job, applied = false, fetchJob }) => {
             <DrawerTrigger asChild>
                 <Button
                     size='lg'
-                    variant={job?.isOpen && !applied ? 'blue' : 'destructive'}
-                    disabled={!job?.isOpen || applied}
+                    variant={job?.is_open && !applied ? 'blue' : 'destructive'}
+                    disabled={!job?.is_open || applied}
                 >
-                    {job?.isOpen ? (applied ? 'Applied' : 'Apply') : "Hiring Closed"}
+                    {job?.is_open ? (applied ? 'Applied' : 'Apply') : "Hiring Closed"}
                 </Button>
             </DrawerTrigger>
             <DrawerContent>

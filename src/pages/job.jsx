@@ -39,15 +39,15 @@ const JobPage = () => {
   });
 
   const handleStatusChanage = (value) => {
-    const isOpen = value === "open"
-    fnHiringStatus(isOpen).then(() => fnJob())
+    const is_open = value === "open"
+    fnHiringStatus(is_open).then(() => fnJob())
   }
 
   useEffect(() => {
     if (isLoaded) fnJob();
   }, [isLoaded]);
 
-  if (!isLoaded || loadingJob) {
+  if (!isLoaded || (loadingJob && !job)) {
     return <BarLoader className="mb-4" width={"100%"} color="white" />
   }
 
@@ -67,7 +67,7 @@ const JobPage = () => {
           <Briefcase /> {job?.applications?.length} Applicants
         </div>
         <div className="flex gap-2">
-          {job?.isOpen ? (
+          {job?.is_open ? (
             <>
               <DoorOpen /> Open
             </>
@@ -83,10 +83,10 @@ const JobPage = () => {
       {loadingHiringStatus && <BarLoader width={"100%"} color="white" />}
       {job?.recruiter_id === user?.id && (
         <Select onValueChange={handleStatusChanage}>
-          <SelectTrigger className={`w-full ${job?.isOpen ? 'bg-green-950' : 'bg-red-950'}`}>
+          <SelectTrigger className={`w-full ${job?.is_open ? 'bg-green-950' : 'bg-red-950'}`}>
             <SelectValue
               placeholder={
-                'Hiring Status' + (job?.isOpen ? "( Open )" : "( Closed )")
+                'Hiring Status' + (job?.is_open ? "( Open )" : "( Closed )")
               }
             />
           </SelectTrigger>

@@ -80,13 +80,13 @@ export async function getSingleJob(token, { job_id }) {
     return data
 }
 
-export async function updateHiringStatus(token, { job_id }, isOpen) {
+export async function updateHiringStatus(token, { job_id }, is_open) {
     const supabase = await SupabaseClient(token);
 
 
     const { data, error } = await supabase
         .from('jobs')
-        .update({ isOpen })
+        .update({ is_open })
         .eq("id", job_id)
         .select();
 
@@ -107,16 +107,19 @@ export async function addNewJob(token, _, jobData) {
 
     const supabase = await SupabaseClient(token);
 
+    console.log("Attempting to create job with data:", jobData);
+
     const { data, error } = await supabase
         .from('jobs')
         .insert([jobData])
         .select();
 
     if (error) {
-        console.log("Error Creating Job", error);
-        return null;
+        console.error("Error Inserting Job into DB:", error);
+        throw new Error("Error Creating Job");
     }
 
+    console.log("Job created successfully in DB:", data);
     return data;
 }
 

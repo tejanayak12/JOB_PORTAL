@@ -66,8 +66,13 @@ const LandingPage = () => {
       </Carousel>
 
       {/* banner */}
-
-      <img src="/banner3.png" alt="banner of hrrd" className="w-full" />
+      <div className="container overflow-hidden rounded-2xl shadow-2xl transition-all duration-300 hover:scale-[1.01] hover:shadow-blue-500/10">
+        <img
+          src="/banner-premium.png"
+          alt="Premium Job Portal Banner"
+          className="w-full object-cover aspect-[21/9] sm:aspect-[3/1]"
+        />
+      </div>
 
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2">

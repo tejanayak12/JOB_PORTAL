@@ -9,8 +9,8 @@ export async function applyToJob(token, _, jobData) {
     const { error: storageError } = await supabase.storage.from('resumes').upload(fileName, jobData.resume);
 
     if (storageError) {
-        console.log("Error uploading Resume", storageError);
-        return null
+        console.error("Error uploading Resume:", storageError);
+        throw new Error("Error uploading Resume");
     };
 
     const resume = `${supabaseUrl}/storage/v1/object/public/resumes/${fileName}`
@@ -25,9 +25,8 @@ export async function applyToJob(token, _, jobData) {
         .select();
 
     if (error) {
-        console.log("Error Submiting Application:", error);
-        return null
-
+        console.error("Error Submitting Application:", error);
+        throw new Error("Error Submitting Application");
     }
 
     return data

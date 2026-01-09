@@ -124,7 +124,7 @@ const JobListing = () => {
             <SelectContent>
               <SelectGroup>
                 {Array.isArray(companies) && companies.map(({ name, id }) => (
-                  <SelectItem key={name} value={id}>{name}</SelectItem>
+                  <SelectItem key={id} value={String(id)}>{name}</SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
@@ -141,17 +141,15 @@ const JobListing = () => {
         <BarLoader className="mt-4" width={"100%"} color="white" />
       )}
 
-      {loadingJobs === false && (
-        <div className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
-          {jobs?.length ? (
-            jobs.map((job) => (
-              <JobCard key={job.id} job={job} savedInit={job?.saved?.length > 0} />
-            ))
-          ) : (
-            <div>No Jobs Found</div>
-          )}
-        </div>
-      )}
+      <div className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
+        {jobs?.length ? (
+          jobs.map((job) => (
+            <JobCard key={job.id} job={job} savedInit={job?.saved?.length > 0} />
+          ))
+        ) : (
+          !loadingJobs && <div>No Jobs Found</div>
+        )}
+      </div>
 
       {/* Pagination */}
       <div className="mt-6 mb-10">

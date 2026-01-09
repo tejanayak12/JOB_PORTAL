@@ -21,7 +21,7 @@ const CreatedApplications = () => {
         }
     }, [user?.id]);
 
-    if (loadingApplications) {
+    if (loadingApplications && applications.length === 0) {
         return <BarLoader className='mb-4' width={"100%"} color='white' />
     }
 

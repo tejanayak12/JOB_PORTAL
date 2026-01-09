@@ -19,7 +19,7 @@ const SavedJob = () => {
     if (isLoaded) fnSavedJobs();
   }, [isLoaded])
 
-  if (!isLoaded || loadingSavedJobs) {
+  if (!isLoaded || (loadingSavedJobs && !savedJobs)) {
     return <BarLoader className="mb-4" width={"100%"} color="white" />
   }
 
@@ -29,17 +29,15 @@ const SavedJob = () => {
         Saved Jobs
       </h1>
 
-      {loadingSavedJobs === false && (
-        <div className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
-          {savedJobs?.length ? (
-            savedJobs.map((saved) => (
-              <JobCard key={saved.id} job={saved.job} savedInit={true} onJobSaved={fnSavedJobs} />
-            ))
-          ) : (
-            <div>No Saved Jobs Found</div>
-          )}
-        </div>
-      )}
+      <div className="grid gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
+        {savedJobs?.length ? (
+          savedJobs.map((saved) => (
+            <JobCard key={saved.id} job={saved.job} savedInit={true} onJobSaved={fnSavedJobs} />
+          ))
+        ) : (
+          !loadingSavedJobs && <div>No Saved Jobs Found</div>
+        )}
+      </div>
     </div>
   </div>;
 };

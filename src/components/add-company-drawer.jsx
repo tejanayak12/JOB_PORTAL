@@ -21,9 +21,8 @@ const schema = z.object({
   logo: z.any(),
 });
 
-const AddCompanyDrawer = ({ fetchCompanies }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+const AddCompanyDrawer = ({ fetchCompanies, onCompanyAdd = () => { } }) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const {
@@ -42,52 +41,46 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
     error: errorAddCompany,
     data: dataAddCompany,
     fn: fnAddCompany,
+    setData: setDataAddCompany,
   } = useFetch(addNewCompany, { manual: true });
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedFile(file);
       setValue('logo', file);
     }
   };
 
-  const onSubmit = (data, event) => {
-    event.preventDefault();
-
-    if (!data.name || !selectedFile) {
-      console.error('Form data is missing:', { name: data.name, logo: selectedFile });
+  const onSubmit = (data) => {
+    if (!data.name || !data.logo) {
+      console.error('Form data is missing:', { name: data.name, logo: data.logo });
       return;
     }
 
-    console.log("Submitting company data:", { name: data.name, logo: selectedFile });
-
-    fnAddCompany(undefined, undefined, {
-      name: data.name,
-      logo: selectedFile,
-    });
+    fnAddCompany(data);
   };
 
   useEffect(() => {
-    if (dataAddCompany) {
+    if (dataAddCompany?.length > 0) {
       fetchCompanies();
-      setIsOpen(false);
+      onCompanyAdd(dataAddCompany[0]);
+      setIsDrawerOpen(false);
       reset();
-      setSelectedFile(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = ''; // Clear file input
       }
+      setDataAddCompany(null); // Clear data to prevent infinite loop
     }
-  }, [dataAddCompany, fetchCompanies, reset]);
+  }, [dataAddCompany, fetchCompanies, reset, onCompanyAdd, setDataAddCompany]);
 
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+    <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
       <DrawerTrigger asChild>
         <Button
           type="button"
           size="sm"
           variant="secondary"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsDrawerOpen(true)}
         >
           Add Your Own Company
         </Button>
@@ -120,7 +113,7 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
         {loadingAddCompany && <BarLoader width={'100%'} color="white" />}
 
         <DrawerFooter>
-          <Button variant="secondary" type="button" onClick={() => setIsOpen(false)}>
+          <Button variant="secondary" type="button" onClick={() => setIsDrawerOpen(false)}>
             Cancel
           </Button>
         </DrawerFooter>

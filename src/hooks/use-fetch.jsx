@@ -1,5 +1,5 @@
 import { useSession } from "@clerk/clerk-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const useFetch = (cb, options = {}) => {
     const [data, setData] = useState(undefined);
@@ -7,8 +7,8 @@ const useFetch = (cb, options = {}) => {
     const [error, setError] = useState(null);
     const { session } = useSession();
 
-    const fn = async (...args) => {
-        if (!session) return;  // Exit if session is not ready
+    const fn = useCallback(async (...args) => {
+        if (!session) return;
 
         setLoading(true);
         setError(null);
@@ -18,6 +18,7 @@ const useFetch = (cb, options = {}) => {
 
             const response = await cb(supabaseAccessToken, options, ...args);
             setData(response);
+            return response;
 
         } catch (error) {
             setError(error);
@@ -25,15 +26,15 @@ const useFetch = (cb, options = {}) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [session, cb, JSON.stringify(options)]);
 
     useEffect(() => {
         if (!options?.manual && session) {
             fn();
         }
-    }, [session]);
+    }, [session, fn]); // Use fn as dependency since it's now stable
 
-    return { fn, data, loading, error };
+    return { fn, data, loading, error, setData };
 };
 
 export default useFetch;
